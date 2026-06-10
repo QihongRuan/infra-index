@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Infra Price Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1 class="site-title">AI Infra Price Index</h1>
+        <p class="tagline">A live composite price index for AI compute — GPU, CPU &amp; RAM spot/on-demand rates.</p>
+      </div>
+      <div class="updated-stamp" id="updated-stamp" hidden>
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>updated <time id="updated-time"></time></span>
+      </div>
+    </div>
+  </header>
+
+  <main id="app">
+    <div id="status" class="status-msg">Loading index data…</div>
+
+    <div id="dashboard" hidden>
+      <section class="stat-row" id="stat-row" aria-label="Index summary">
+        <article class="stat-card stat-card--hero">
+          <h2 class="stat-label">Composite Index</h2>
+          <div class="stat-value" id="stat-composite">—</div>
+          <div class="stat-delta" id="delta-composite"></div>
+        </article>
+        <article class="stat-card">
+          <h2 class="stat-label">GPU Index</h2>
+          <div class="stat-value" id="stat-gpu">—</div>
+          <div class="stat-delta" id="delta-gpu"></div>
+        </article>
+        <article class="stat-card">
+          <h2 class="stat-label">CPU Index</h2>
+          <div class="stat-value" id="stat-cpu">—</div>
+          <div class="stat-delta" id="delta-cpu"></div>
+          <div class="stat-sub" id="sub-cpu"></div>
+        </article>
+        <article class="stat-card">
+          <h2 class="stat-label">RAM Index</h2>
+          <div class="stat-value" id="stat-ram">—</div>
+          <div class="stat-delta" id="delta-ram"></div>
+          <div class="stat-sub" id="sub-ram"></div>
+        </article>
+      </section>
+
+      <section class="panel" aria-label="Index history">
+        <div class="panel-head">
+          <h2 class="panel-title">Index History</h2>
+          <span class="panel-note">baseline = first snapshot = 100 · falling = cheaper compute</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="history-chart"></canvas>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="GPU prices">
+        <div class="panel-head">
+          <h2 class="panel-title">GPU On-Demand Prices</h2>
+          <span class="panel-note">$/GPU·hr · best price per model highlighted</span>
+        </div>
+        <div class="table-wrap">
+          <table class="gpu-table" id="gpu-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th class="num">RunPod Secure</th>
+                <th class="num">RunPod Community</th>
+                <th class="num">Vast.ai (median)</th>
+                <th class="num">Best</th>
+              </tr>
+            </thead>
+            <tbody id="gpu-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel methodology" aria-label="Methodology">
+        <div class="panel-head">
+          <h2 class="panel-title">Methodology</h2>
+        </div>
+        <div class="method-grid">
+          <div>
+            <h3>Basket &amp; weighting</h3>
+            <p>The composite is a weighted <strong>geometric mean</strong> of three sub-indices: <strong>GPU 60%</strong>, <strong>CPU 20%</strong>, <strong>RAM 20%</strong>. Each index is normalized so the <strong>first snapshot = 100</strong>; values below 100 mean compute has gotten cheaper since baseline.</p>
+          </div>
+          <div>
+            <h3>Data sources</h3>
+            <p>GPU rates from <strong>RunPod</strong> (Secure &amp; Community Cloud) and <strong>Vast.ai</strong> (median ask). CPU and RAM unit prices decomposed from <strong>AWS EC2</strong> c7i/r7i on-demand pricing into $/vCPU·hr and $/GB·hr.</p>
+          </div>
+          <div>
+            <h3>Caveats</h3>
+            <p>Prices are auto-collected <strong>on-demand list prices</strong>; they exclude spot/reserved discounts, egress, and storage. Marketplace medians can shift with inventory mix, not just price changes.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    AI Infra Price Index · team CareClarity · data auto-collected, not investment advice
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

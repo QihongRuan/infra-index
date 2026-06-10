@@ -1,0 +1,330 @@
+/* AI Infra Price Index — dark financial dashboard */
+
+:root {
+  --bg: #0b0e14;
+  --bg-panel: #11151f;
+  --bg-panel-raised: #161b28;
+  --border: #232a3a;
+  --border-soft: #1b2130;
+  --text: #e6e9f0;
+  --text-dim: #8b93a7;
+  --text-faint: #5c6478;
+  --accent: #f5a623;        /* amber — terminal accent */
+  --accent-soft: rgba(245, 166, 35, 0.12);
+  --good: #34d399;          /* falling prices = good for buyers */
+  --good-soft: rgba(52, 211, 153, 0.12);
+  --bad: #f87171;           /* rising prices = bad for buyers */
+  --bad-soft: rgba(248, 113, 113, 0.12);
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #0d1119 0%, var(--bg) 100%);
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.site-title::before {
+  content: "▮";
+  color: var(--accent);
+  margin-right: 10px;
+}
+
+.tagline {
+  margin: 4px 0 0;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.updated-stamp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-panel);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 6px var(--good);
+}
+
+/* ---------- layout ---------- */
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 48px;
+}
+
+.status-msg {
+  margin: 64px auto;
+  max-width: 560px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 16px;
+  padding: 32px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: var(--bg-panel);
+}
+
+.status-msg code {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* ---------- stat cards ---------- */
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.stat-card--hero {
+  background: linear-gradient(160deg, var(--bg-panel-raised) 0%, var(--bg-panel) 70%);
+  border-color: #2c3344;
+}
+
+.stat-label {
+  margin: 0 0 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.stat-card--hero .stat-value {
+  font-size: 48px;
+  color: var(--accent);
+}
+
+.stat-delta {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  color: var(--text-faint);
+}
+
+.stat-delta.down { color: var(--good); background: var(--good-soft); }
+.stat-delta.up   { color: var(--bad);  background: var(--bad-soft); }
+
+.stat-delta .delta-tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.stat-sub {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+/* ---------- panels ---------- */
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.panel-note {
+  font-size: 12.5px;
+  color: var(--text-faint);
+}
+
+.chart-wrap {
+  position: relative;
+  height: 340px;
+}
+
+/* ---------- GPU table ---------- */
+
+.table-wrap { overflow-x: auto; }
+
+.gpu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.gpu-table th,
+.gpu-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.gpu-table thead th {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+
+.gpu-table th.num,
+.gpu-table td.num {
+  text-align: right;
+  font-family: var(--mono);
+}
+
+.gpu-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+.gpu-table tbody tr:last-child td { border-bottom: none; }
+
+.gpu-table td.model {
+  font-weight: 600;
+}
+
+.gpu-table td.missing { color: var(--text-faint); }
+
+.gpu-table td.best-cell {
+  color: var(--good);
+  background: var(--good-soft);
+  font-weight: 600;
+}
+
+.gpu-table td.best-col {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- methodology ---------- */
+
+.methodology { color: var(--text-dim); }
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.method-grid h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.method-grid p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.method-grid strong { color: var(--text); font-weight: 600; }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px 36px;
+  font-size: 12px;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1100px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .method-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .stat-row { grid-template-columns: 1fr; }
+  #app { padding: 20px 16px 40px; }
+}
