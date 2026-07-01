@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-01T17:02:26Z",
+  "updated": "2026-07-01T17:57:20Z",
   "snapshots": [
     {
       "ts": "2026-06-10T04:36:45Z",
@@ -17573,6 +17573,55 @@
       "indices": {
         "composite": 97.79,
         "gpu": 96.35,
+        "cpu": 100.0,
+        "ram": 100.0
+      }
+    },
+    {
+      "ts": "2026-07-01T17:57:20Z",
+      "gpu": {
+        "H100 SXM": {
+          "runpod_secure": 3.29,
+          "runpod_community": 2.69,
+          "vast_median": 2.2058,
+          "best": 2.2058
+        },
+        "H100 PCIe": {
+          "runpod_secure": 2.89,
+          "runpod_community": 1.99,
+          "vast_median": 2.1006,
+          "best": 1.99
+        },
+        "A100 80GB SXM": {
+          "runpod_secure": 1.49,
+          "runpod_community": 1.39,
+          "vast_median": 0.8689,
+          "best": 0.8689
+        },
+        "RTX 4090": {
+          "runpod_secure": 0.69,
+          "runpod_community": 0.34,
+          "vast_median": 0.4017,
+          "best": 0.34
+        },
+        "L40S": {
+          "runpod_secure": 0.99,
+          "runpod_community": 0.79,
+          "vast_median": 0.9016,
+          "best": 0.79
+        },
+        "B200": {
+          "runpod_secure": 5.89,
+          "runpod_community": 5.98,
+          "vast_median": 5.1887,
+          "best": 5.1887
+        }
+      },
+      "cpu_per_vcpu_hr": 0.0374,
+      "ram_per_gb_hr": 0.0036,
+      "indices": {
+        "composite": 97.77,
+        "gpu": 96.31,
         "cpu": 100.0,
         "ram": 100.0
       }
