@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-10T11:19:26Z",
+  "updated": "2026-07-10T13:01:00Z",
   "snapshots": [
     {
       "ts": "2026-06-10T04:36:45Z",
@@ -25765,6 +25765,43 @@
       "indices": {
         "composite": 98.98,
         "gpu": 98.3,
+        "cpu": 100.0,
+        "ram": 100.0
+      }
+    },
+    {
+      "ts": "2026-07-10T13:01:00Z",
+      "gpu": {
+        "H100 SXM": {
+          "vast_median": 2.3393,
+          "best": 2.3393
+        },
+        "H100 PCIe": {
+          "vast_median": 1.8675,
+          "best": 1.8675
+        },
+        "A100 80GB SXM": {
+          "vast_median": 0.9012,
+          "best": 0.9012
+        },
+        "RTX 4090": {
+          "vast_median": 0.403,
+          "best": 0.403
+        },
+        "L40S": {
+          "vast_median": 0.8015,
+          "best": 0.8015
+        },
+        "B200": {
+          "vast_median": 8.1299,
+          "best": 8.1299
+        }
+      },
+      "cpu_per_vcpu_hr": 0.0374,
+      "ram_per_gb_hr": 0.0036,
+      "indices": {
+        "composite": 104.5,
+        "gpu": 107.61,
         "cpu": 100.0,
         "ram": 100.0
       }
